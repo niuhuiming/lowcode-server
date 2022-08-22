@@ -2,23 +2,31 @@ const db = require('../db/index')
 const { nanoid } = require("nanoid");
 
 exports.publish = (req, res) => {
-    const data = req.body;
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    const sqlStr = `INSERT INTO pagedata (pageID, pageRemark, pageStruct) VALUES('${nanoid(10)}', '${data.pageRemark}', '${JSON.stringify(data.pageStruct)}')`;
-    db.query(sqlStr, (err, respnse) => {
-        if (err) {
-            return res.send({ statue: 0, msg: err.message })
-        }
-        res.send({ status: 1, msg: 'success' })
+    db.getConnection().then(conn => {
+        const data = req.body;
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        conn.query(`INSERT INTO pagedata (pageID, pageRemark, pageStruct) VALUES('${nanoid(10)}', '${data.pageRemark}', '${JSON.stringify(data.pageStruct)}')`)
+            .then((rows) => {
+                res.send({ statue: 1, msg: 'success' })
+            })
+            .catch(err => {
+                res.send({ statue: 0, msg: err.message });
+            })
+    }).catch(err => {
+        console.log('not connected', err.message);
     });
 }
 
 exports.getList = (req, res) => {
-    const sqlStr = `SELECT * FROM pagedata;`;
-    db.query(sqlStr, (err, response) => {
-        if (err) {
-            return res.send({ statue: 0, msg: err.message })
-        }
-        res.send({ status: 1, msg: JSON.stringify(response) })
-    })
+    db.getConnection().then(conn => {
+        conn.query("SELECT * from pagedata")
+            .then((rows) => {
+                res.send({ statue: 1, msg: JSON.stringify(rows[0]) })
+            })
+            .catch(err => {
+                res.send({ statue: 0, msg: err.message });
+            })
+    }).catch(err => {
+        console.log('not connected', err.message);
+    });
 }

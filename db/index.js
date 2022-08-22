@@ -1,7 +1,8 @@
-const mysql = require('mysql');
+const mariasql = require('mariadb');
 
-const db = mysql.createPool({
+const db = mariasql.createPool({
   host: '127.0.0.1',
+  port: '3307',
   user: 'root',
   password: 'root',
   database: 'lowcodeData'

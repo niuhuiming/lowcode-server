@@ -1,5 +1,9 @@
 ## lowcode-server
 
+低代码平台后端项目。低代码项目地址：https://github.com/niuhuiming/lowcode
+
+
+
 ### 接口信息
 
 - `/api/save`：保存一个组件
@@ -12,7 +16,7 @@
 
 ### 表结构
 
-#### lowcodeData/pageData
+#### lowcodeData.pageData
 
 ```sql
 CREATE TABLE pageData( 
@@ -22,17 +26,11 @@ CREATE TABLE pageData(
 );
 ```
 
-| 页面id（string） | 备注信息 | 页面结构（string）                                    |
-| ---------------- | -------- | ----------------------------------------------------- |
-| axxxxxxxx-xxxx   | 页面1    | [{ attribute: [], data: {}, info: {}, position: {} }] |
-|                  |          |                                                       |
-|                  |          |                                                       |
+| pageID（页面ID） | pageRemark（备注信息） | pageStruct（页面结构）                                |
+| ---------------- | ---------------------- | ----------------------------------------------------- |
+| axxxxxxxx-xxxx   | 页面1                  | [{ attribute: [], data: {}, info: {}, position: {} }] |
 
-
-
-
-
-## 项目部署
+### 项目部署
 
 1. 服务器的选择与购买
 
@@ -75,11 +73,15 @@ CREATE TABLE pageData(
 
 5. 在服务器安装MongoDB
 
-   
+   注意：
+
+   - 默认不支持中文
 
 6. 在Node项目中使用MongoDB
 
 7. 在服务器安装Nginx
+
+   nginx重启：`nginx -s reload`
 
 8. 部署前端项目
 
